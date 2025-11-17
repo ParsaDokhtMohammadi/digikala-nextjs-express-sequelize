@@ -1,5 +1,6 @@
 import express from "express"
 import { config } from "dotenv"
+import sequelize from "./config/sequelize.config.js"
 //------------------------------------------
 
 
@@ -34,8 +35,10 @@ app.use((err, req , res , next)=>{
 })
 
 
-app.listen(3001,async()=>{
+app.listen(3001,()=>{
     try{
+        sequelize.authenticate()
+        console.log("connected to db");
         console.log("server running http://localhost:3001");
     }catch(err){
         console.log(err);
