@@ -1,7 +1,6 @@
 import express from "express"
 import { config } from "dotenv"
-import sequelize from "./config/sequelize.config.js"
-import "./modules/Products/product.model.js"
+import { modelsInitial } from "./config/models.initial.js"
 //------------------------------------------
 
 
@@ -35,12 +34,9 @@ app.use((err, req , res , next)=>{
     })
 })
 
-
 app.listen(3001,async()=>{
     try{
-        await sequelize.authenticate()
-        await sequelize.sync({alter:true})
-        console.log("connected to db");
+        await modelsInitial()
         console.log("server running http://localhost:3001");
     }catch(err){
         console.log(err);
