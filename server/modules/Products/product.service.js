@@ -1,10 +1,11 @@
 import createHttpError from "http-errors"
-import { ProductTypes } from "../../common/constants/product.const"
+import { ProductTypes } from "../../common/constants/product.const.js"
 import { Product, ProductColor, ProductDetail, ProductSize } from "./product.model.js"
 
 export async function createProduct(req , res , next){
     try{
-        const {title , 
+        const {
+            title , 
             price , 
             discount , 
             active_discount , 
