@@ -95,15 +95,26 @@ export async function getProductById(req , res , next) {
                 {model : ProductSize , as : "sizes"}
             ]
         })
-        if(!product){
-            res.status(404).json({
-                message : "product not found"
-            })
-        }
+        if(!product)throw createHttpError(404,"product not found")
+        
         res.status(200).json({
             data : product
         })
 
+    }catch(err){
+        next(err)
+    }
+}
+
+export async function deleteProduct(req , res , next) {
+    try{
+        const {id} = req.params
+        const product = await Product.findByPk(id)
+        if(!product)throw createHttpError(404,"product not found")
+        await product.destroy()
+        res.status(200).json({
+            message : "product deleted"
+        })
     }catch(err){
         next(err)
     }
