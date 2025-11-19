@@ -71,6 +71,16 @@ export async function createProduct(req , res , next){
         next(err)
     }
 }
-async function getAllProducts(){
-    
+export async function getAllProducts(req , res , next){
+    try{
+        const {page} = req.query
+        const  pageNumber = page ? +page : 1
+        const products = await Product.findAll({limit:2,offset:(pageNumber-1)*2})
+        res.json({
+            statusCode : 201,
+            data : products
+        })
+    }catch(err){
+        next(err)
+    }
 }
