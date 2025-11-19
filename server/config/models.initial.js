@@ -9,6 +9,6 @@ export async function modelsInitial(){
     Product.hasMany(ProductDetail , {foreignKey : "product_id" , sourceKey : "id" ,as :"details"})
     ProductDetail.belongsTo(Product , {foreignKey : "product_id",targetKey:"id"})
     Product.hasMany(ProductSize , {foreignKey : "product_id" , sourceKey : "id" ,as :"sizes"})
-    ProductSize.belongsTo(Product , {foreignKey : "product_size" , targetKey:"id"})
+    ProductSize.belongsTo(Product , {foreignKey : "product_id" , targetKey:"id"})
     console.log("connected to db");
 }

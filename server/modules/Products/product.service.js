@@ -1,6 +1,7 @@
 import createHttpError from "http-errors"
 import { ProductTypes } from "../../common/constants/product.const.js"
 import { Product, ProductColor, ProductDetail, ProductSize } from "./product.model.js"
+import { Model } from "sequelize"
 
 export async function createProduct(req , res , next){
     try{
@@ -80,6 +81,29 @@ export async function getAllProducts(req , res , next){
             statusCode : 201,
             data : products
         })
+    }catch(err){
+        next(err)
+    }
+}
+export async function getProductById(req , res , next) {
+    try{
+        const {id} = req.params
+        const product = await Product.findByPk(id,{
+            include : [
+                {model : ProductDetail , as : "details"},
+                {model : ProductColor , as : "colors"},
+                {model : ProductSize , as : "sizes"}
+            ]
+        })
+        if(!product){
+            res.status(404).json({
+                message : "product not found"
+            })
+        }
+        res.status(200).json({
+            data : product
+        })
+
     }catch(err){
         next(err)
     }
