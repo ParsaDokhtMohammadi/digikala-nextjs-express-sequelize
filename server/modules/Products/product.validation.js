@@ -1,4 +1,4 @@
-import { validate , Joi } from "express-validation"
+import {  Joi } from "express-validation"
 import { ProductTypes } from "../../common/constants/product.const.js     "
 export const ProductValidation = {
     body : Joi.object({

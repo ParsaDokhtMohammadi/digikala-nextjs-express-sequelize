@@ -16,7 +16,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 
-app.use("api/product",productRouter)
+app.use("/api/product",productRouter)
 
 
 

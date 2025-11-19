@@ -3,6 +3,7 @@ import { Product , ProductColor , ProductDetail , ProductSize } from "../modules
 export async function modelsInitial(){
     await sequelize.authenticate()
     await sequelize.sync({alter:true})
+    //product relations
     Product.hasMany(ProductColor , {foreignKey : "product_id" , sourceKey : "id" ,as :"colors"})
     ProductColor.belongsTo(Product , {foreignKey : "product_id",targetKey:"id"})
     Product.hasMany(ProductDetail , {foreignKey : "product_id" , sourceKey : "id" ,as :"details"})

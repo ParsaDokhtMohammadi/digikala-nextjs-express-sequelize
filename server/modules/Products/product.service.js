@@ -63,6 +63,10 @@ export async function createProduct(req , res , next){
                         })}
                     }
             }
+        return res.json({
+            statusCode : 200,
+            message : "product created succesfully"
+        })
     }catch(err){
         next(err)
     }
