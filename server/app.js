@@ -2,6 +2,7 @@ import express from "express"
 import { config } from "dotenv"
 import { modelsInitial } from "./config/models.initial.js"
 import { productRouter } from "./modules/Products/product.router.js"
+import { AuthRouter } from "./modules/Auth/auth.routes.js"
 //------------------------------------------
 
 
@@ -17,7 +18,7 @@ app.use(express.urlencoded({extended:true}))
 
 
 app.use("/api/product",productRouter)
-
+app.use("/api/auth",AuthRouter)
 
 
 //------------------------------------------

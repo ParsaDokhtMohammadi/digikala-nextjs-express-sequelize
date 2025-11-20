@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../../config/sequelize.config"; 
+import sequelize from "../../config/sequelize.config.js"; 
 
 export const User = sequelize.define("user",{
-    fullname : {type:DataTypes.STRING , allowNull:false},
+    fullname : {type:DataTypes.STRING , allowNull:true},
     mobile : {type:DataTypes.STRING , allowNull:false},
 },{
     updatedAt : false,
