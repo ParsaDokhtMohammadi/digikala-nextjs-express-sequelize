@@ -1,5 +1,6 @@
 import createHttpError from "http-errors";
 import { Otp, User } from "../Users/user.model.js";
+import { CreateToken } from "../../common/utils/auth.utils.js";
 
 export async function sendOtp(req, res, next) {
   try {
@@ -58,8 +59,11 @@ export async function checkOtp(req , res , next) {
     
     if(user?.Otp?.code !==code)throw createHttpError(401,"code is invalid")
     if(user?.Otp?.expires_in < new Date())throw createHttpError(401,"code is expired")
+    const {accessToken , refreshToken} = CreateToken({id:user.id,mobile})
     res.json({
-      message:"logged in successfuly"
+      message:"logged in successfuly",
+      accessToken : accessToken,
+      refreshToken : refreshToken
     })
   }catch(err){
     next(err)
