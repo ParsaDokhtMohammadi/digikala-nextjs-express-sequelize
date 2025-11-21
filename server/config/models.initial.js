@@ -1,6 +1,8 @@
 import sequelize from "./sequelize.config.js";
 import { Product , ProductColor , ProductDetail , ProductSize } from "../modules/Products/product.model.js";
 import { Otp, User } from "../modules/Users/user.model.js";
+import { RefreshToken } from "../modules/Users/refreshToken.model.js";
+
 export async function modelsInitial(){
     await sequelize.authenticate()
     await sequelize.sync({alter:true})

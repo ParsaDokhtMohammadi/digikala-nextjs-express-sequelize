@@ -1,6 +1,9 @@
 import createHttpError from "http-errors";
 import { Otp, User } from "../Users/user.model.js";
 import { CreateToken } from "../../common/utils/auth.utils.js";
+import { RefreshToken } from "../Users/refreshToken.model.js";
+import jwt from "jsonwebtoken"
+
 
 export async function sendOtp(req, res, next) {
   try {
@@ -48,14 +51,12 @@ export async function sendOtp(req, res, next) {
 export async function checkOtp(req , res , next) {
   try{
     const {mobile,code} = req.body
-    console.log(code);
-    console.log(mobile);
+
     
     if (!mobile || !code) throw createHttpError(400, "mobile and code are required");
     let user = await User.findOne({ where: { mobile },
     include : [{model : Otp , as : "Otp"}]});
     if(!user)throw createHttpError(404,"user does not exist")
-    console.log(user?.Otp);
     
     if(user?.Otp?.code !==code)throw createHttpError(401,"code is invalid")
     if(user?.Otp?.expires_in < new Date())throw createHttpError(401,"code is expired")
@@ -67,5 +68,32 @@ export async function checkOtp(req , res , next) {
     })
   }catch(err){
     next(err)
+  }
+}
+export async function verifiyRefreshTokenHandler(req , res , next){
+  try{
+      const {refreshToken} = req.body
+
+      
+      if(!refreshToken) throw createHttpError(401,"login to your account")
+      const verified = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET)
+      if(!verified) throw createHttpError(401,"login to your account")
+      const user = await User.findByPk(verified.id)
+      if(!user) throw createHttpError(401,"login to your account")       
+      const existsToken = await RefreshToken.findOne({where:{token:refreshToken}})
+      if(existsToken) throw createHttpError(401,"token blackListed")
+      await RefreshToken.create({
+        token : refreshToken,
+        userId : user.id
+      })
+      const {accessToken , refreshToken:newRefreshToken} = CreateToken({userId : user.id , mobile:user.mobile})
+      console.log(accessToken,newRefreshToken);
+      
+      res.json({
+          accessToken,
+          refreshToken:newRefreshToken
+      })
+  }catch(err){    
+      next(err)
   }
 }
