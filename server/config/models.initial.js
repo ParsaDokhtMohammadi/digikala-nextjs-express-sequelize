@@ -14,7 +14,7 @@ export async function modelsInitial(){
    
    //user relations
    User.hasOne(Otp,{foreignKey:"user_id",sourceKey : "id",as : "Otp"})
-   Otp.belongsTo(User,{foreignKey:"user_id",targetKey:"id"})
+   Otp.belongsTo(User,{foreignKey:"user_id",targetKey:"id",as: "user"})
    
    
    
