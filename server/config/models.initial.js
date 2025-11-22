@@ -3,6 +3,7 @@ import { Product , ProductColor , ProductDetail , ProductSize } from "../modules
 import { Otp, User } from "../modules/Users/user.model.js";
 import { RefreshToken } from "../modules/Users/refreshToken.model.js";
 import { Cart } from "../modules/Cart/Cart.model.js";
+import { discount } from "../modules/discount/discount.model.js";
 
 export async function modelsInitial(){
     await sequelize.authenticate()
@@ -29,7 +30,10 @@ export async function modelsInitial(){
    Cart.belongsTo(User,{foreignKey:"user_id",targetKey:"id",as:"user"})
    Cart.belongsTo(ProductColor,{foreignKey:"color_id",targetKey:"id",as:"color"})
    Cart.belongsTo(ProductSize,{foreignKey:"size_id",targetKey:"id",as:"size"})
-
+    //discount relations
+    discount.hasMany(Cart , {foreignKey:"discount_id",sourceKey:"id",as:"cart"})
+    Cart.belongsTo(discount , {foreignKey:"discount_id",targetKey:"id",as:"discount"})
+    
 
     console.log("connected to db");
 }
