@@ -3,6 +3,7 @@ import { config } from "dotenv"
 import { modelsInitial } from "./config/models.initial.js"
 import { productRouter } from "./modules/Products/product.router.js"
 import { AuthRouter } from "./modules/Auth/auth.routes.js"
+import { CartRouter } from "./modules/Cart/Cart.routes.js"
 //------------------------------------------
 
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use("/api/product",productRouter)
 app.use("/api/auth",AuthRouter)
+app.use("/api/cart",CartRouter)
 
 
 //------------------------------------------

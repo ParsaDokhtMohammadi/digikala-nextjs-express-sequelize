@@ -61,6 +61,11 @@ export async function checkOtp(req , res , next) {
     if(user?.Otp?.code !==code)throw createHttpError(401,"code is invalid")
     if(user?.Otp?.expires_in < new Date())throw createHttpError(401,"code is expired")
     const {accessToken , refreshToken} = CreateToken({id:user.id,mobile})
+    req.user = {
+      id:user.id,
+      mobile:user.mobile,
+      fullname : user?.fullname    
+  }
     res.json({
       message:"logged in successfuly",
       accessToken : accessToken,
